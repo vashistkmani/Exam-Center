@@ -1,0 +1,133 @@
+<%- include ('../partials/head.ejs') %>
+    <%- include ('../partials/header.ejs') %>
+        <main class="main">
+            <div class="examOption">
+                <form class="row g-3">
+                    <div class="col-12">
+                        <label for="exam" class="form-label">Select Exam</label>
+                        <select name="exam" class="form-select" id="exam" required>
+                            <option value="">Select</option>
+                            <% for(let i of response){ %>
+                                <option value="<%= i._id %>">
+                                    <%= i.examinationName %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <p id="message"></p>
+            </div>
+            <div class="questionForm">
+                <form class="row g-3" id="questionForm">
+                    <div class="col-12">
+                        <label for="examinationName " class="form-label">Question</label>
+                        <textarea class="form-control" name="question" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="date" class="form-label ">Option 1</label>
+                        <textarea class="form-control option" name="option1" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="date" class="form-label ">Option 2</label>
+                        <textarea class="form-control option" name="option2" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="date" class="form-label ">Option 3</label>
+                        <textarea class="form-control option" name="option3" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="date" class="form-label ">Option 4</label>
+                        <textarea class="form-control option" name="option4" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="date" class="form-label ">Correct Answer</label>
+                        <textarea class="form-control option" name="answer" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button id="saveQuestion" class="btn btn-primary">Save</button>
+                    </div>
+                </form><!-- Vertical Form -->
+            </div>
+
+        </main>
+        <script>
+
+            // counting number of textarea filled ...........................
+            $('#saveQuestion').prop('disabled', true);
+            function counter() {
+                let count = 0;
+                let collection = {
+                    question: $("textarea[name='question']").val(),
+                    option1: $("textarea[name='option1']").val(),
+                    option2: $("textarea[name='option2']").val(),
+                    option3: $("textarea[name='option3']").val(),
+                    option4: $("textarea[name='option4']").val(),
+                    answer: $("textarea[name='answer']").val(),
+                };
+                for (let i in collection) {
+                    if (collection[i].length != 0) {
+                        count++;
+                    };
+                    if (count == 6) {
+                        $('#saveQuestion').prop('disabled', false);
+                    } else {
+                        $('#saveQuestion').prop('disabled', true);
+                    };
+
+                };
+            };
+
+            // jquery functionality..................................
+            $(document).ready(function () {
+
+                //selecting the exam and get question form ..................
+                $("#exam").change(function () {
+                    let value = $('#exam').find(":selected").val();
+                    $("#message").css("visibility", "hidden");
+                    if (value) {
+                        $(".questionForm").css("visibility", "visible");
+                    } else {
+                        $(".questionForm").css("visibility", "hidden");
+                    }
+                });
+                $("textarea").change(function () {
+                    counter()
+                });
+                //saving data of question .........................
+                $("#saveQuestion").click(function (e) {
+                    e.preventDefault();
+                    let data = {
+                        examId: $('#exam').find(":selected").val(),
+                        question: $("textarea[name='question']").val(),
+                        option: [$("textarea[name='option1']").val(),
+                        $("textarea[name='option2']").val(),
+                        $("textarea[name='option3']").val(),
+                        $("textarea[name='option4']").val()],
+                        answer: $("textarea[name='answer']").val(),
+                    }
+                    console.log(">>> <<<", data);
+                    let found = data.option.find(i => i == data.answer);
+                    console.log("found .>>", found);
+                    if (found) {
+                        $.ajax({
+                            url: "/addQuestion",
+                            method: "post",
+                            data,
+                            success: function () {
+                                $('#questionForm').trigger('reset');
+                                window.location.href = "#";
+                                $("#message").css({ "visibility": "visible", "color": "Green" }).html("  ** Question Save Successfully ** ");
+                                $('#saveQuestion').prop('disabled', true);
+                            }
+                        })
+                    } else {
+                        $("#message").css({ "visibility": "visible", "color": "red" }).html(" ** Answer Did't match to any option **");
+                        window.location.href = "#";
+                    }
+                });
+            })
+        </script>
+        <%- include ('../partials/footer.ejs') %>

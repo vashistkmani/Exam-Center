@@ -1,0 +1,48 @@
+main {
+    margin-top: 60px;
+    margin-left: 300px;
+    margin-bottom: 50px;
+    width: 1200px;
+}
+
+.btnMan {
+    margin-top: 100px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.addExamForm {
+    margin: 100px;
+    margin-left: 30%;
+    padding: 30px;
+    width: 450px;
+    font-weight: 700;
+    line-height: 2;
+}
+
+.examOption {
+    margin: 100px
+}
+
+.questionForm {
+    visibility: hidden;
+    width: 71%;
+    margin-left: 20%;
+}
+
+.option {
+    height: 13px !important;
+}
+
+#message {
+    visibility: hidden;
+    text-align: center;
+    font-weight: bolder;
+    font-style: italic;
+    margin: 50px;
+    padding: 20px;
+    position: absolute;
+    margin-left: 30%;
+    margin-top: -5%;
+    text-decoration: underline;
+}

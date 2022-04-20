@@ -1,0 +1,78 @@
+<%- include ('../partials/head.ejs') %>
+    <%- include ('../partials/header.ejs') %>
+        <main>
+            <div class="examOption">
+                <form class="row g-3" method="get" action="/viewQuestion" id="searchBar">
+                    <div class="col-12">
+                        <label for="exam" class="form-label">Select Exam</label>
+                        <select name="exam" class="form-select" id="exam" required onchange="selectedExam();">
+                            <option value="">Select</option>
+                            <% if(exams1) { %>
+                                <% for(let exam of exams1){ %>
+                                    <% if (examId==exam._id){ %>
+                                        <option value="<%= exam._id %>" selected>
+                                            <%= exam.examinationName %>
+                                        </option>
+                                    <% } else { %>
+                                        <option value="<%= exam._id %>">
+                                            <%= exam.examinationName %>
+                                        </option>
+                                    <% } %>
+                                <% } %>
+                            <% } else { %>
+                            <option value="" disabled>Select</option>
+                            <% } %>
+
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <section class="section">
+                <div class="row align-items-top">
+                    <div class="col-lg-6" style="width: auto; margin-left: 10%;">
+                        <!-- Default Card -->
+                        <% if(exams2[0].questions.length > 0){ %>
+                            <% for(let question of exams2[0].questions) { %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Question : <%= question.question %></h5>
+                                    <% let count =1 %>
+                                    <% for (let i of question.option){ %>
+                                        <h6>option <%= count %> : <%= i %></h6>
+                                        <% count ++ %>
+                                    <% } %>
+                                    <h6>answer : <%= question.answer %></h6>
+                                 </div>
+                            </div><!-- End Default Card -->
+                            <% } %>
+                        <% } else { %>
+                            <h4 class="text-danger">No Question Found</h4>                       
+                        <% } %>
+                    </div>
+                </div>
+            </section>
+
+
+
+        </main>
+        <script type="text/javascript">
+            function selectedExam() {
+                $('#searchBar').submit();
+            }
+            $(document).ready(function () {
+                console.log("jquey runnungg.....")
+                $("#exam").change(function () {
+                    let value = $("#exam").find(":selected").val();
+                    if (value) {
+                        $.ajax({
+                            url: `/viewQuestion?exam=${value}`,
+                            method: 'get',
+                        })
+                    } else {
+                        window.location.href = "/viewQuestion";
+                    }
+                    console.log("Changed selection...", value);
+                })
+            })
+        </script>
+        <%- include ('../partials/footer.ejs') %>

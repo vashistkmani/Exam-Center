@@ -1,0 +1,75 @@
+<%- include ('../partials/head.ejs') %>
+    <%- include ('../partials/header.ejs') %>
+        <main class="main">
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Examnination</h5>
+                                <hr>
+
+                                <!-- Table with stripped rows -->
+                                <table id="mytable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Examination</th>
+                                            <th scope="col">Examination Date</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Announced</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <!-- <th scope="col">S.No</th> -->
+                                            <th scope="col">Examination</th>
+                                            <th scope="col">Examination Date</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">End Time</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">Announced</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <!-- End Table with stripped rows -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script>
+            $(document).ready(function () {
+                $('#mytable').DataTable({
+                    ajax: {
+                        url: '/viewExamData',
+                        type: 'post',
+                    },
+                    columns: [
+                        { data: 'serial' },
+                        { data: 'examinationName' },
+                        { data: 'date' },
+                        { data: 'startTime' },
+                        { data: 'endTime' },
+                        { data: 'duration' },
+                        { data: 'announced' },
+                        { data: 'action' },
+                    ]
+                });
+            });
+        </script>
+
+
+
+
+
+
+        <%- include ('../partials/footer.ejs') %>

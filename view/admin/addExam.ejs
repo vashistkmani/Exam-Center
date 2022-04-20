@@ -1,0 +1,63 @@
+<%- include ('../partials/head.ejs') %>
+    <%- include ('../partials/header.ejs') %>
+        <main class="main">
+            <div class="addExamForm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Examination Form</h5>
+
+                        <!-- Vertical Form -->
+                        <form class="row g-3" action="/addExam" method="post">
+                            <div class="col-12">
+                                <label for="examinationName " class="form-label">Examnination Name</label>
+                                <input type="text" class="form-control" name="examinationName" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" name="date" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="startTime" class="form-label">Start Time</label>
+                                <input type="time" class="form-control" name="startTime" id="startTime" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="duration" class="form-label">Duration</label>
+                                <select name="duration" class="form-select" id="duration" required>
+                                    <option value="">Select</option>
+                                    <option value="1">1 hours</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                    <option value="4">4 hours</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="endTime" class="form-label">End Time</label>
+                                <input type="time" class="form-control" name="endTime" id="endTime" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </form><!-- Vertical Form -->
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script>
+            $(document).ready(function () {
+                console.log("jquery running ..........");
+                $("#duration").change(function () {
+                    console.log("inside change time ");
+                    let value = $('#duration').find(":selected").val();
+                    let time = $("#startTime").val();
+                    let timing = time.split(":");   
+                    let endTime =Number(timing[0]) + Number(value);
+                    endTime = `${endTime}:${timing[1]}`;
+                    console.log("end time", endTime);
+                    $("#endTime").val(endTime);
+                })
+
+            })
+        </script>
+<%- include ('../partials/footer.ejs') %>

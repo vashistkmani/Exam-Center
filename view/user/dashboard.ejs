@@ -1,0 +1,36 @@
+<%- include("../partials/userHeader") %>
+    <script type="text/javascript">
+        $("#profile").css("visibility", "visible");
+        function preventBack() {
+            window.history.forward(); 
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+    <main style="margin-bottom: 23rem;"> 
+        <div class="examOption" style="margin: 10%;" >
+            <form class="row g-3" method="get" action="/appearExam" id="searchBar">
+                <div class="col-12">
+                    <label for="exam" class="form-label">Select Exam</label>
+                    <select name="exam" class="form-select" id="exam" required >
+                        <option value="">Select</option>
+                        <% if(exams) { %>
+                            <% for(let exam of exams){ %>
+                                <option value="<%= exam._id %>">
+                                    <%= exam.examinationName %>
+                                </option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <div style="float: right;">
+                    <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                </div>
+            </form>
+        </div>
+        <% if(response) { %>
+          <h5 style="color: red; text-align: center;">** <%= response %> ** </h5>  
+        <% } %>
+    </main>
+
+<%- include("../partials/userFooter") %>
