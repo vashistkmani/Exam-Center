@@ -14,6 +14,7 @@ class adminController {
             addExamData: this.addExamData.bind(this),
             viewExam: this.viewExam.bind(this),
             viewExamData: this.viewExamData.bind(this),
+            cancelExam:this.cancelExam.bind(this),
             addQuestion: this.addQuestion.bind(this),
             addQuestionData: this.addQuestionData.bind(this),
             viewQuestion: this.viewQuestion.bind(this),
@@ -73,10 +74,9 @@ class adminController {
 
     async addExamData(req, res, next) {
         try {
-            console.log(req.body);
             let { examinationName, date, startTime, endTime, duration } = req.body;
             let announced = moment().format('MMMM Do YYYY, h:mm:ss a');
-            let exam = new examData({examinationName, date, startTime, endTime, duration, announced });
+            let exam = new examData({ examinationName, date, startTime, endTime, duration, announced });
             exam.save();
             res.redirect("/adminHome");
         } catch (error) {
@@ -114,11 +114,9 @@ class adminController {
                                 endTime: index.endTime,
                                 duration: `${index.duration} hr`,
                                 announced: index.announced,
-                                action: `<button type="submit" class="btn btn-danger btn-sm">Cancel</button>`,
+                                action: `<a href="/cancelExam?id=${index._id}" class="btn btn-danger btn-sm">Cancel</a>`,
                             })
                             count++;
-
-                            // console.log("data in araray", data);
                             if (count > row.length) {
                                 let json_data = JSON.stringify({ data })
                                 res.send(json_data);
@@ -129,6 +127,21 @@ class adminController {
         }
         catch (err) {
             console.log("error in datatable", err);
+        }
+    };
+
+    async cancelExam(req,res,next){
+        try {
+            let result = await examData.deleteOne({_id:req.query.id});
+            if(result.deletedCount == 1){
+                let questionResult = await question.deleteMany({examId:req.query.id});
+                if(questionResult){
+                    console.log("deletion Successfull.")
+                }    
+            }
+            res.redirect('/viewExam');
+        } catch (error) {
+            console.log(error);            
         }
     };
 

@@ -31,22 +31,26 @@
                 <div class="row align-items-top">
                     <div class="col-lg-6" style="width: auto; margin-left: 10%;">
                         <!-- Default Card -->
-                        <% if(exams2[0].questions.length > 0){ %>
-                            <% for(let question of exams2[0].questions) { %>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Question : <%= question.question %></h5>
-                                    <% let count =1 %>
-                                    <% for (let i of question.option){ %>
-                                        <h6>option <%= count %> : <%= i %></h6>
-                                        <% count ++ %>
-                                    <% } %>
-                                    <h6>answer : <%= question.answer %></h6>
-                                 </div>
-                            </div><!-- End Default Card -->
+                        <% if(exams2.length>0){ %>
+                            <% if(exams2[0].questions.length > 0){ %>
+                                <% for(let question of exams2[0].questions) { %>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Question : <%= question.question %></h5>
+                                        <% let count =1 %>
+                                        <% for (let i of question.option){ %>
+                                            <h6>option <%= count %> : <%= i %></h6>
+                                            <% count ++ %>
+                                        <% } %>
+                                        <h6>answer : <%= question.answer %></h6>
+                                    </div>
+                                </div><!-- End Default Card -->
+                                <% } %>
+                            <% } else { %>
+                                <h4 class="text-danger">No Question Found</h4>                       
                             <% } %>
-                        <% } else { %>
-                            <h4 class="text-danger">No Question Found</h4>                       
+                        <% }else { %>
+                                <h4 class="text-danger">No Question Found</h4>
                         <% } %>
                     </div>
                 </div>

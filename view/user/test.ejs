@@ -480,28 +480,6 @@
             </div>
             <div class="modal-body pb-0">
                <div class="exam_attemped">
-                  <div class="row">
-                     <div class="col-6">
-                        <div class="row d-inline-flex align-items-center mx-0 bg-green rounded py-0 px-0">
-                           <div class="col-auto pl-1 pr-2">
-                              <h3 class="fs-13 mb-0 text-white">Total Attempted:</h3>
-                           </div>
-                           <div class="col-auto pr-1  pl-0">
-                              <span class="fs-13 text-white">12</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-6 text-right">
-                        <div class="row mx-0 d-inline-flex align-items-center bg-primary rounded py-0 px-0">
-                           <div class="col-auto pl-1 pr-2">
-                              <h3 class="fs-13 mb-0 text-white">Not Attempted:</h3>
-                           </div>
-                           <div class="col-auto pr-1 pl-0">
-                              <span class="fs-13 text-white">18</span>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
                   <div class="row mt-5">
                      <div class="col-12">
                         <table class="table">
@@ -519,24 +497,25 @@
                            </thead>
                            <tbody>
                               <% if(questions) { %>
-                                 <% let total=questions.length %>
-                                    <% let count=1 %>
-                                       <% let number=Math.ceil(total/4) %>
-                                          <% for(let i=number; i>0 ; i--) {%>
-                                             <tr>
-                                                <% for(let i=4; i>0; i-- ) {%>
-                                                   <td><strong class="fs-14">
-                                                         <%=count %>
-                                                      </strong></td>
-                                                   <td> <span
-                                                         class="bg-primary fs-13 h-25px w-25px d-flex align-items-center justify-content-center rounded-pill mx-auto"
-                                                         id="<%=`m${questions[count-1]._id}` %>"></span>
-                                                   </td>
-                                                   <% count ++ %>
-                                                      <% } %>
-                                             </tr>
+                                 <% let count=0 %>
+                                 <% for(let i=Math.ceil((questions.length)/4); i>0 ; i--) {%>
+                                    <tr>
+                                       <% for(let j=4; j>0; j-- ) {%>
+                                          <% if (questions.length == count) { %>
+                                             <% break %>
                                           <% } %>
-                                    <% } %>
+                                          <td><strong class="fs-14">
+                                             <%=count+1 %>
+                                          </strong></td>
+                                          <td> <span
+                                                class="bg-primary fs-13 h-25px w-25px d-flex align-items-center justify-content-center rounded-pill mx-aquestion[count]"
+                                                id="<%=`m${questions[count]._id}` %>"></span>
+                                          </td>
+                                          <% count ++ %>
+                                       <% } %>
+                                    </tr>
+                                 <% } %>
+                              <% } %>
                            </tbody>
                         </table>
                      </div>

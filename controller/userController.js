@@ -111,7 +111,6 @@ class userController {
                     console.log("login Success");
                     req.session.auth = true;
                     req.session.userDetails = data;
-                    console.log("Session", req.session);
                     res.redirect("/dashboard");
                 }
                 else {
@@ -156,11 +155,15 @@ class userController {
                 } else {
                     req.session.appearExam = true;
                     let questions = await question.find({ examId });
-                    let examDetails = await examData.findOne({ _id: examId });
-                    req.session.examId = examId;
-                    req.session.questions = questions;
-                    req.session.duration = examDetails.duration;
-                    res.render("user/test", { questions, examDetails });
+                    if (questions.length>0) {
+                        let examDetails = await examData.findOne({ _id: examId });
+                        req.session.examId = examId;
+                        req.session.questions = questions;
+                        req.session.duration = examDetails.duration;
+                        res.render("user/test", { questions, examDetails });
+                    } else {
+                        res.render("user/dashboard", { exams, response: "No question found" });
+                    }
                 };
             } else {
                 req.session.appearExam = true;
@@ -169,7 +172,7 @@ class userController {
                 req.session.examId = examId;
                 req.session.questions = questions;
                 req.session.duration = examDetails.duration;
-                res.render("user/test", { questions, examDetails });
+                res.render("user/test", { questions, examDetails, });
             };
         } catch (error) {
             throw error;
@@ -252,9 +255,8 @@ class userController {
             let compareDate = req.session.compareDate;
             var now = new Date();
             var difference = compareDate.getTime() - now.getTime();
-            // console.log("time", difference);
             if (difference <= 0) {
-                window.location.href = '/examSubmit';
+                res.redirect('/examSubmit');
             } else {
                 var seconds = Math.floor(difference / 1000);
                 var minutes = Math.floor(seconds / 60);
