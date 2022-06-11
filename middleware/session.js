@@ -1,6 +1,6 @@
 const session = require("express-session");
 const mongoDbSession = require('connect-mongodb-session')(session);
-
+serverDB="mongodb://localhost:27017/examCentre";
 // saving session data to database................................
 const storage = new mongoDbSession({
     uri: serverDB,

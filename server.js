@@ -1,5 +1,4 @@
 // Model require...
-require("./config/database");
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -8,6 +7,7 @@ const app = express();
 // -- importing file ...............
 const router = require('./router/router');
 const session = require("./middleware/session");
+require("./config/database");
 // body parser .......................................
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
